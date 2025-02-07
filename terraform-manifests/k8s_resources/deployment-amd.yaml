@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inflate-amd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inflate
+  template:
+    metadata:
+      labels:
+        app: inflate
+    spec:
+      terminationGracePeriodSeconds: 0
+      # nodeSelector:
+      #   eks.amazonaws.com/compute-type: auto
+      #   kubernetes.io/arch : amd64
+      containers:
+        - name: inflate
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
+          resources:
+            requests:
+              cpu: 5
+              # memory: 1.5Gi              
+          securityContext:
+            allowPrivilegeEscalation: false

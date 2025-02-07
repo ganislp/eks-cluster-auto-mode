@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inflate-arm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inflate-arm
+  template:
+    metadata:
+      labels:
+        app: inflate-arm
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        eks.amazonaws.com/compute-type: auto
+        kubernetes.io/arch : arm64
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+      containers:
+        - name: inflate-arm
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
+          resources:
+            requests:
+              cpu: 1
+          securityContext:
+            allowPrivilegeEscalation: false
