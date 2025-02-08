@@ -8,10 +8,7 @@ spec:
       nodeClassRef:
         group: eks.amazonaws.com
         kind: NodeClass
-        name: "${node_class_name}"
-      taints:
-      - key:    "health-graviton"
-        effect: "NoSchedule"  
+        name: "${node_class_name}" 
       requirements:
         - key: "kubernetes.io/arch"
           operator: In

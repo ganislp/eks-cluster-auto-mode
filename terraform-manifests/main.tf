@@ -38,7 +38,7 @@ resource "aws_eks_access_policy_association" "auto_mode" {
 
 
  resource "kubectl_manifest" "karpenter_node_class" {
-yaml_body = templatefile("${path.module}/k8/node-class.yaml", {
+yaml_body = templatefile("${path.module}/k8s_resources/node-class.yaml", {
     eks_cluster_name = module.eks.cluster_name
     eks_auto_node_policy = module.eks.node_iam_role_name
      node_class_name = local.node_class_name
@@ -48,13 +48,14 @@ depends_on = [ module.eks.cluster_endpoint,module.eks.node_iam_role_name ]
 
 resource "kubectl_manifest" "karpenter_node_pool" {  
    for_each = toset(var.instance_architecture)
-yaml_body = templatefile("${path.module}/k8/node-pool.yaml" ,{
+yaml_body = templatefile("${path.module}/k8s_resources/node-pool.yaml" ,{
     node_class_name = local.node_class_name
     node_pool_name = "${local.node_pool_name}-${each.value}"
     instance_cpu =   "${join("\", \"", var.instance_cpu)}"
     instance_category =  "${join("\", \"",  var.instance_category)}" 
     capacity_type =   "${join("\", \"",  var.capacity_type)}"  
     instance_architecture =    each.value
+    taints_key = "${local.node_pool_name}-${each.value}"
 })
 depends_on = [ kubectl_manifest.karpenter_node_class,   module.eks.cluster_endpoint ]
  }

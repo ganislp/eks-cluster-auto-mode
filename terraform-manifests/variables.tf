@@ -50,6 +50,16 @@ variable "capacity_type" {
   type = list(string)
 }
 
+variable "ebs_claim_name" {
+  description = "ens claim name"
+  type        = string
+  default     = true
+}
+
+variable "existing_vpc_id" {
+  description = "VPC id"
+  type        = string
+}
 
 
 

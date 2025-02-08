@@ -13,9 +13,9 @@ spec:
         app: inflate
     spec:
       terminationGracePeriodSeconds: 0
-      # nodeSelector:
-      #   eks.amazonaws.com/compute-type: auto
-      #   kubernetes.io/arch : amd64
+      nodeSelector:
+        eks.amazonaws.com/compute-type: auto
+        kubernetes.io/arch : amd64
       containers:
         - name: inflate
           image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
