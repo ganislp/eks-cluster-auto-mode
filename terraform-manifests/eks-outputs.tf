@@ -23,3 +23,6 @@ output "cluster_version" {
   description = "The Kubernetes server version for the EKS cluster."
   value       = module.eks.cluster_version
 }
+
+
+

@@ -9,6 +9,9 @@ terraform {
       source  = "gavinbunney/kubectl"
       version = "1.19.0"
     }
+    null = {
+      source = "hashicorp/null"
+    }
   }
 }
 

@@ -16,7 +16,7 @@ resource "kubernetes_storage_class" "ebs" {
     type      = "gp3"
     encrypted = "true"
   }
-  depends_on = [module.eks] 
+  depends_on = [module.eks.cluster_endpoint] 
 }
 
 
@@ -42,6 +42,6 @@ resource "kubernetes_persistent_volume_claim_v1" "ebs_pvc" {
   }
   wait_until_bound = false
 
-  depends_on = [module.eks] 
+  depends_on = [kubernetes_storage_class.ebs] 
 }
 

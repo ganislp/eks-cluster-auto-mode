@@ -11,6 +11,14 @@ locals {
   common_tags = {
     owners =  var.business_divsion
     environment = var.environment
+    Terraform   = "true"
   }
+
+  eks_tags = merge(
+   local.common_tags,
+    {
+      always_zero = length(null_resource.check_workspace) 
+    },
+  )
 
 } 

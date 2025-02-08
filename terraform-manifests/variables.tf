@@ -61,5 +61,10 @@ variable "existing_vpc_id" {
   type        = string
 }
 
+variable "allowed_workspaces" {
+  type    = list(string)
+  default = ["dev",  "prod"]
+}
+
 
 

@@ -17,6 +17,14 @@ module "eks" {
   }
   vpc_id                   = var.existing_vpc_id
   control_plane_subnet_ids = data.aws_subnets.private_subnets.ids
+
+  cluster_enabled_log_types  = [ "audit", "api", "authenticator" ]
+
+   tags = local.eks_tags
+
+  dataplane_wait_duration = "60s"
+ depends_on       = [null_resource.check_workspace]
+  
 }
 
 resource "aws_eks_access_entry" "auto_mode" {
@@ -60,15 +68,4 @@ yaml_body = templatefile("${path.module}/k8s_resources/node-pool.yaml" ,{
 depends_on = [ kubectl_manifest.karpenter_node_class,   module.eks.cluster_endpoint ]
  }
 
-#  resource "kubectl_manifest" "karpenter_graviton_node_pool" {  
-# yaml_body = templatefile("${path.module}/k8/node-pool.yaml" ,{
-#     node_class_name = local.node_class_name
-#     node_pool_name = local.node_pool_name_graviton
-#     instance_cpu =   "${join("\", \"", var.instance_cpu)}"
-#     instance_category =  "${join("\", \"",  var.instance_category)}" 
-#     capacity_type =   "${join("\", \"",  var.capacity_type)}"  
-#     instance_architecture =    var.instance_architecture[1] 
-# })
-# depends_on = [ kubectl_manifest.karpenter_node_class,   module.eks.cluster_endpoint ]
-#  }
 
