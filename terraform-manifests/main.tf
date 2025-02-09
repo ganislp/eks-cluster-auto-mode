@@ -5,11 +5,14 @@ module "eks" {
   cluster_version = var.cluster_version
   cluster_name    = local.cluster_name
 
-  cluster_endpoint_public_access           = true
+  cluster_endpoint_private_access = true
+  cluster_endpoint_public_access  = true
   enable_irsa                              = true
   enable_cluster_creator_admin_permissions = true
   create_kms_key                           = false
   cluster_encryption_config                = {}
+  bootstrap_self_managed_addons = false
+
 
   cluster_compute_config = {
     enabled = true
@@ -17,7 +20,7 @@ module "eks" {
   }
   vpc_id                   = var.existing_vpc_id
   control_plane_subnet_ids = data.aws_subnets.private_subnets.ids
-
+  cloudwatch_log_group_retention_in_days = 3
   cluster_enabled_log_types  = [ "audit", "api", "authenticator" ]
 
    tags = local.common_tags
