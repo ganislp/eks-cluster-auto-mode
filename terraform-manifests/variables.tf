@@ -46,14 +46,8 @@ variable "instance_architecture" {
 }
 
 variable "capacity_type" {
-    description = "Instance apacity type  used to node pools"
+  description = "Instance apacity type  used to node pools"
   type = list(string)
-}
-
-variable "ebs_claim_name" {
-  description = "ens claim name"
-  type        = string
-  default     = true
 }
 
 variable "existing_vpc_id" {
@@ -61,9 +55,9 @@ variable "existing_vpc_id" {
   type        = string
 }
 
-variable "allowed_workspaces" {
-  type    = list(string)
-  default = ["dev",  "prod"]
+variable "instance_size" {
+  description = "Instance size type  used to node pools"
+  type    = list(string) 
 }
 
 
