@@ -9,8 +9,6 @@ module "eks" {
   cluster_endpoint_public_access           = true
   enable_irsa                              = true
   enable_cluster_creator_admin_permissions = true
-  create_kms_key                           = false
-  cluster_encryption_config                = {}
   bootstrap_self_managed_addons            = false
 
 
