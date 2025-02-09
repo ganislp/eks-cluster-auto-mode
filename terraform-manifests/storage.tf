@@ -16,7 +16,7 @@ resource "kubernetes_storage_class" "ebs" {
     type      = "gp3"
     encrypted = "true"
   }
-  depends_on = [module.eks.cluster_endpoint] 
+  depends_on = [module.eks] 
 }
 
 

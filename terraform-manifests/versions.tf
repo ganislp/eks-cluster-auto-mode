@@ -7,10 +7,14 @@ terraform {
     }
     kubectl = {
       source  = "gavinbunney/kubectl"
-      version = "1.19.0"
+      version = "~> 1.19"
     }
     null = {
       source = "hashicorp/null"
+    }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "~> 2.35"
     }
   }
 }
