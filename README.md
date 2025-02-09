@@ -46,19 +46,37 @@ Now that we have all the resources needed in AWS, so we can connect to kubernete
   aws eks --region <region-code> update-kubeconfig --name <cluster_name>
 ```
 - Test your configuration.
-```cython
-  kubectl get svc
-```
-- Check worker nodes by running.
-```cython
-  kubectl get nodes
-```
 
-
+- Check worker nodeclass and nodepools ready state True.
+```cython
+ kubectl get nodeclass
+ kubectl get nodepools
+```
+```cython
+  kubectl apply -f ./applications/deployment-arm.yaml
+  kubectl apply -f ./applications/deployment-amd.yaml
+```
+- Check node auto-provisioning.
+```cython
+   kubectl get  nodeclaim
+```
+- Check kube events log.
+```cython
+   kubectl get events   --sort-by=.metadata.creationTimestamp --watch
+```
+- Check get pods.
+```cython
+   kubectl get pods 
+```
+- Check de-provisioning  node .
+```cython
+   kubectl delete deployment inflate-arm
+```
+- Check node de-provisioning.
+```cython
+   kubectl get  nodeclaim
+```
 ## Deleting the cluster
-
-First, delete the Kubernetes resources as shown below. This will give Ingress and Service related Load Balancers a chance to delete before the other AWS resources are removed.
-
 Then delete the EKS related resources:
 
 ```

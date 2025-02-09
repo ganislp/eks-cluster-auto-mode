@@ -26,28 +26,28 @@ variable "cluster_version" {
 
 variable "cluster_prefix" {
   description = "cluster prefix"
-  type = string
-  default = "eks"
+  type        = string
+  default     = "eks"
 }
 
 variable "instance_cpu" {
-    description = "Instance cpus  used to node pools"
-  type = list(string)
+  description = "Instance cpus  used to node pools"
+  type        = list(string)
 }
 
 variable "instance_category" {
-    description = "Instance category  used to node pools"
-  type =  list(string)
+  description = "Instance category  used to node pools"
+  type        = list(string)
 }
 
 variable "instance_architecture" {
-    description = "Instance architecture  used to node pools"
-  type = list(string)
+  description = "Instance architecture  used to node pools"
+  type        = list(string)
 }
 
 variable "capacity_type" {
   description = "Instance apacity type  used to node pools"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "existing_vpc_id" {
@@ -57,7 +57,7 @@ variable "existing_vpc_id" {
 
 variable "instance_size" {
   description = "Instance size type  used to node pools"
-  type    = list(string) 
+  type        = list(string)
 }
 
 

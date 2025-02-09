@@ -8,7 +8,7 @@ data "aws_subnets" "private_subnets" {
 
   tags = {
     "karpenter.sh/discovery" = local.cluster_name
-     Name =  local.private_subnets-prefix
+    Name                     = local.private_subnets-prefix
   }
 }
 
@@ -19,7 +19,7 @@ data "aws_subnets" "public_subnets" {
   }
 
   tags = {
-     "karpenter.sh/discovery" = local.cluster_name
-      Name =  local.public_subnets-prefix
+    "karpenter.sh/discovery" = local.cluster_name
+    Name                     = local.public_subnets-prefix
   }
 }
