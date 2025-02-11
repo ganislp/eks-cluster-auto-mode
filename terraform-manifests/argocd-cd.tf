@@ -7,7 +7,7 @@
 #  name       = "argocd"
 #  repository = "https://argoproj.github.io/argo-helm"
 #  chart      = "argo-cd"
-#  version    = "4.5.2"
+#  version    = "7.8.2"
 #  namespace = "argocd"
 #  create_namespace = true
 #  set {
@@ -18,9 +18,9 @@
 # #    name  = "server.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
 # #    value = "nlb"
 # #  }
-
+# #argo/argo-cd
 # values = [
-#     "${file("${path.module}/k8s_resources/values.yaml")}"
+#     "${file("${path.module}/k8s_resources/newvalues.yaml")}"
 #   ]
 
 # }

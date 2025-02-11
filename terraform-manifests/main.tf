@@ -34,7 +34,7 @@ resource "aws_eks_access_entry" "auto_mode" {
   cluster_name  = module.eks.cluster_name
   principal_arn = module.eks.node_iam_role_arn
   type          = "EC2"
-  depends_on = [ module.eks ]
+  depends_on = [ module.eks.cluster_name]
 
 }
 
@@ -45,16 +45,57 @@ resource "aws_eks_access_policy_association" "auto_mode" {
   access_scope {
     type = "cluster"
   }
-  depends_on = [ module.eks]
+  depends_on = [ module.eks.cluster_name]
 }
-# resource "kubectl_manifest" "karpenter_node_class" {
-#   yaml_body = templatefile("${path.module}/k8s_resources/node-class.yaml", {
-#     eks_cluster_name     = module.eks.cluster_name
-#     eks_auto_node_policy = module.eks.node_iam_role_name
-#     node_class_name      = local.node_class_name
-#   })
-#   depends_on = [module.eks.cluster_endpoint, module.eks.node_iam_role_name]
-# }
+data "kubectl_path_documents" "karpenter_node_class" {
+ pattern = file("${path.module}/k8s_resources/node-class.yaml")
+
+ vars = {
+    eks_cluster_name     = module.eks.cluster_name
+    eks_auto_node_policy = module.eks.node_iam_role_name
+    node_class_name      = local.node_class_name
+ }
+  # yaml_body = templatefile("${path.module}/k8s_resources/node-class.yaml", {
+  #   eks_cluster_name     = module.eks.cluster_name
+  #   eks_auto_node_policy = module.eks.node_iam_role_name
+  #   node_class_name      = local.node_class_name
+  # })
+  depends_on = [module.eks.cluster_endpoint, module.eks.node_iam_role_name]
+}
+
+# Create a VPC Endpoint for EKS API (example for private API)
+resource "aws_vpc_endpoint" "eks" {
+  vpc_id       = var.existing_vpc_id
+  service_name = "com.amazonaws.${var.aws_region}.eks"
+
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [aws_security_group.eks_endpoint.id]
+  subnet_ids         = data.aws_subnets.private_subnets.ids
+
+  private_dns_enabled = true
+}
+
+# Security Group for VPC Endpoint
+resource "aws_security_group" "eks_endpoint" {
+  name   = "eks-vpc-endpoint-sg"
+  vpc_id = var.existing_vpc_id
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]  # Update with your VPC CIDR
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 
 # resource "kubectl_manifest" "karpenter_node_pool" {
 #   for_each = toset(var.instance_architecture)

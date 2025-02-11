@@ -24,5 +24,11 @@ output "cluster_version" {
   value       = module.eks.cluster_version
 }
 
+output "karpenter_node_class_yaml" {
+  description = "The Kubernetes server version for the EKS cluster."
+  value       =  data.kubectl_path_documents.karpenter_node_class.manifests
+}
+
+
 
 

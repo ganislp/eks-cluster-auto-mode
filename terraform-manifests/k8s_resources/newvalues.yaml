@@ -31,7 +31,7 @@ openshift:
 ## Custom resource configuration
 crds:
   # -- Install and upgrade CRDs
-  install: true
+  install: false
   # -- Keep CRDs on chart uninstall
   keep: true
   # -- Annotations to be added to all CRDs
@@ -48,9 +48,13 @@ global:
   nodeSelector:
     eks.amazonaws.com/compute-type: auto
     karpenter.sh/nodepool: system  
+  server:
+  extraArgs:
+    - --insecure
+  
   # -- Default domain used by all components
   ## Used for ingresses, certificates, SSO, notifications, etc.
-  domain: argocd.example.com
+  # domain: argocd.example.com
 
   # -- Runtime class name for all components
   runtimeClassName: ""
