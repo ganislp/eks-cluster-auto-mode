@@ -7,7 +7,7 @@ capacity_type = ["SPOT","on-demand"]
 instance_cpu = ["1","2","4"]
 instance_category = ["t","c","m","r"]
 instance_size = ["medium","large","xlarge"]
-existing_vpc_id = "vpc-0669b7bba3f6a71fe"
+
 
 
 
