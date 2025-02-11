@@ -1,4 +1,4 @@
-# AWS EKS **Auto Mode** Terraform 
+# AWS EKS **Auto Mode Private** Terraform 
 eks cluster auto mode with customized  node class and node pools with amd64 and arm64
 
 This repo provides the Terraform configuration to deploy a demo app running on an AWS EKS Cluster with Auto Mode enabled, using best practices.
@@ -43,8 +43,26 @@ Now that we have all the resources needed in AWS, so we can connect to kubernete
 - Install kubectl. All the step to install kubectl can be found [here](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html).
 
 ```cython
+  Login ec2 bastion host using private key ec2-bastion-key.pem
+```
+
+```cython
+  aws configure 
+  aws_access_key_id - The AWS access key part of your credentials
+  aws_secret_access_key - The AWS secret access key part of your credentials
+  aws_session_token - The session token part of your credentials (session tokens only)
+```
+
+```cython
   aws eks --region <region-code> update-kubeconfig --name <cluster_name>
 ```
+
+
+```cython
+  kubectl apply -f /home/ec2-user/k8s_resources/node-pool-amd.yaml
+  kubectl apply -f /home/ec2-user/k8s_resources/deployment-amd.yaml
+```
+
 - Test your configuration.
 
 - Check worker nodeclass and nodepools ready state True.
@@ -53,8 +71,8 @@ Now that we have all the resources needed in AWS, so we can connect to kubernete
  kubectl get nodepools
 ```
 ```cython
-  kubectl apply -f ./applications/deployment-arm.yaml
-  kubectl apply -f ./applications/deployment-amd.yaml
+  kubectl apply -f /home/ec2-user/k8s_resources/deployment-arm.yaml
+  kubectl apply -f /home/ec2-user/k8s_resources/deployment-amd.yaml
 ```
 - Check node auto-provisioning.
 ```cython

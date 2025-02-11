@@ -61,4 +61,10 @@ variable "instance_size" {
 }
 
 
+variable "key_name" {
+  description = "Bastion Host key name"
+  type = string
+  default = "ec2-bastion-key"
+}
+
 
